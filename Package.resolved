@@ -1,0 +1,15 @@
+{
+  "originHash" : "1dd2e4903e3b9ded6a0f82ea8a02f55f58c7c1a305344a1b799c3e43c5168216",
+  "pins" : [
+    {
+      "identity" : "swift-glob",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/davbeck/swift-glob",
+      "state" : {
+        "revision" : "f8d3495325bfd1a53f37ece5a244f28d1d857879",
+        "version" : "0.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}

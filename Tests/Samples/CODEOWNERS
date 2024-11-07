@@ -1,0 +1,10 @@
+# under the sea
+Fish/Chips/** @shrimp
+Fish/*/Chips/*.swift @shrimp @sea-horse
+"Coral Reef/**" @anemone
+
+Examples/Fish/Chips/** @shrimp @nemo
+
+[Packages]
+Packages/** @fish
+Packages/reef @nemo
