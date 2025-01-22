@@ -1,6 +1,6 @@
 [![Build](https://github.com/swhitty/swift-codeowners/actions/workflows/build.yml/badge.svg)](https://github.com/swhitty/swift-codeowners/actions/workflows/build.yml)
 [![Codecov](https://codecov.io/gh/swhitty/swift-codeowners/graphs/badge.svg)](https://codecov.io/gh/swhitty/swift-codeowners)
-[![Platforms](https://img.shields.io/badge/platforms-iOS%20|%20Mac%20|%20tvOS%20|%20Linux%20)](https://github.com/swhitty/swift-codeowners/blob/main/Package.swift)
+[![Platforms](https://img.shields.io/badge/platforms-%20macOS%20|%20iOS%20|%20Linux%20-lightgray.svg)](https://github.com/swhitty/swift-codeowners/blob/main/Package.swift)
 [![Swift 6.0](https://img.shields.io/badge/swift-6.0-red.svg?style=flat)](https://developer.apple.com/swift)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://opensource.org/licenses/MIT)
 [![Twitter](https://img.shields.io/badge/twitter-@simonwhitty-blue.svg)](http://twitter.com/simonwhitty)
