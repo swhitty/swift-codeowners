@@ -61,7 +61,7 @@ public struct CodeOwners {
         self.entries = entries
     }
 
-    public init(data: Data, base: URL = URL(fileURLWithPath: "/")) throws {
+    public init(data: Data, base: URL = URL(filePath: "/")) throws {
         guard base.hasDirectoryPath else {
             throw ParseError("base url must be a directory")
         }

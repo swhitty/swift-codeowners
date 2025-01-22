@@ -40,56 +40,56 @@ struct CodeOwnersTests {
         let owners = try CodeOwners(fileNamed: "Samples/CODEOWNERS")
 
         #expect(
-            owners.owners(for: URL(fileURLWithPath: "/Packages/test")) == [
+            owners.owners(for: URL(filePath: "/Packages/test")) == [
                 "@fish"
             ]
         )
         #expect(
-            owners.owners(for: URL(fileURLWithPath: "/Packages/reef")) == [
+            owners.owners(for: URL(filePath: "/Packages/reef")) == [
                 "@nemo"
             ]
         )
         #expect(
-            owners.owners(for: URL(fileURLWithPath: "/Coral Reef/chips")) == [
+            owners.owners(for: URL(filePath: "/Coral Reef/chips")) == [
                 "@anemone"
             ]
         )
         #expect(
-            owners.owners(for: URL(fileURLWithPath: "/Fish/food/Chips/sea.swift")) == [
+            owners.owners(for: URL(filePath: "/Fish/food/Chips/sea.swift")) == [
                 "@shrimp", "@sea-horse"
             ]
         )
         #expect(
-            owners.owners(for: URL(fileURLWithPath: "/Fish/food/Chips/sea.cs")) == []
+            owners.owners(for: URL(filePath: "/Fish/food/Chips/sea.cs")) == []
         )
         #expect(
-            owners.owners(for: URL(fileURLWithPath: "/unknown/")) == []
+            owners.owners(for: URL(filePath: "/unknown/")) == []
         )
     }
 
     @Test
     func unknownOwners() throws {
-        let owners = try CodeOwners(fileNamed: "Samples/CODEOWNERS", base: URL(fileURLWithPath: "/fish/"))
+        let owners = try CodeOwners(fileNamed: "Samples/CODEOWNERS", base: URL(filePath: "/fish/"))
 
         #expect(
-            owners.owners(for: URL(fileURLWithPath: "/unknown/")) == []
+            owners.owners(for: URL(filePath: "/unknown/")) == []
         )
     }
 
     @Test
     func base() {
         #expect(throws: ParseError.self) {
-            try CodeOwners(data: Data(), base: URL(fileURLWithPath: "/file.txt"))
+            try CodeOwners(data: Data(), base: URL(filePath: "/file.txt"))
         }
         #expect(throws: Never.self) {
-            try CodeOwners(data: Data(), base: URL(fileURLWithPath: "/file/"))
+            try CodeOwners(data: Data(), base: URL(filePath: "/file/"))
         }
     }
 
     @Test
     func invalid_utf8_data() {
         #expect(throws: ParseError.self) {
-            try CodeOwners(data: Data([0xa0,0xa1]), base: URL(fileURLWithPath: "/"))
+            try CodeOwners(data: Data([0xa0,0xa1]), base: URL(filePath: "/"))
         }
     }
 
@@ -103,15 +103,15 @@ struct CodeOwnersTests {
 
     @Test
     func relativePath() throws {
-        let owners = try CodeOwners(data: Data(), base: URL(fileURLWithPath: "/fish/"))
+        let owners = try CodeOwners(data: Data(), base: URL(filePath: "/fish/"))
         #expect(
-            owners.relativePath(for: URL(fileURLWithPath: "/fish/chips.txt")) == "chips.txt"
+            owners.relativePath(for: URL(filePath: "/fish/chips.txt")) == "chips.txt"
         )
         #expect(
-            owners.relativePath(for: URL(fileURLWithPath: "/fish/chips/shrimp/")) == "chips/shrimp/"
+            owners.relativePath(for: URL(filePath: "/fish/chips/shrimp/")) == "chips/shrimp/"
         )
         #expect(
-            owners.relativePath(for: URL(fileURLWithPath: "/chips/fish")) == nil
+            owners.relativePath(for: URL(filePath: "/chips/fish")) == nil
         )
     }
 }
@@ -120,7 +120,7 @@ struct CodeOwnersTests {
 
 extension CodeOwners {
 
-    init(fileNamed name: String, bundle: Bundle = .module, base: URL = URL(fileURLWithPath: "/")) throws {
+    init(fileNamed name: String, bundle: Bundle = .module, base: URL = URL(filePath: "/")) throws {
         guard let path = bundle.url(forResource: name, withExtension: nil) else {
             throw ParseError("file not found")
         }

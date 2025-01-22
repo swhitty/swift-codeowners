@@ -25,13 +25,13 @@ To install using Swift Package Manager, add this to the `dependencies:` section 
 Parse the CODEOWNERS file within a repo:
 
 ```swift
-let co = try CodeOwners(file: URL(fileURLWithPath: "/code/repo/CODEOWNERS"))
+let co = try CodeOwners(file: URL(filePath: "/code/repo/CODEOWNERS"))
 ```
 
 Retrieve the owners for a specific file URL:
 
 ```swift
-let owners = co.owners(for: URL(fileURLWithPath: "/code/repo/Sources/main.swift"))
+let owners = co.owners(for: URL(filePath: "/code/repo/Sources/main.swift"))
 ```
 
 # Credits
