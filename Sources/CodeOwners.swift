@@ -41,12 +41,11 @@ public struct CodeOwners {
         public var owners: [Owner]
         var glob: Glob.Pattern
 
-        public init(pattern: String, owners: [Owner], glob: Glob.Pattern) {
+        public init(pattern: String, owners: [Owner]) throws {
             self.pattern = pattern
             self.owners = owners
-            self.glob = glob
+            self.glob = try .init(pattern)
         }
-
     }
 
     public struct Owner: RawRepresentable, Hashable {
@@ -83,7 +82,7 @@ public struct CodeOwners {
     }
 
     public func entry(for file: URL) -> Entry? {
-        guard let relativePath = file.relativePath(from: base) else {
+        guard let relativePath = relativePath(for: file) else {
             return nil
         }
         return entries.last {
@@ -97,18 +96,9 @@ public struct CodeOwners {
         }
         return Set(entry.owners)
     }
-}
 
-extension CodeOwners.Entry: CustomStringConvertible {
-    public var description: String {
-        ([pattern] + owners.map(\.rawValue)).joined(separator: " ")
-    }
-}
-
-extension URL {
-
-    func relativePath(from base: URL) -> String? {
-        let path = path(percentEncoded: false)
+    func relativePath(for file: URL) -> String? {
+        let path = file.path(percentEncoded: false)
         let basePath = base.path(percentEncoded: false)
         guard path.hasPrefix(basePath) else {
             return nil
@@ -117,28 +107,16 @@ extension URL {
     }
 }
 
+extension CodeOwners.Entry: CustomStringConvertible {
+    public var description: String {
+        ([pattern] + owners.map(\.rawValue)).joined(separator: " ")
+    }
+}
+
 extension CodeOwners.Entry {
 
     static func ~= (entry: CodeOwners.Entry, file: String) -> Bool {
         entry.glob.match(file)
-    }
-}
-
-extension CodeOwners {
-
-    static func make(from url: URL, base: URL? = nil) throws -> CodeOwners {
-        guard let file = try String(data: Data(contentsOf: url), encoding: .utf8) else {
-            throw ParseError("invalid file \(url)")
-        }
-        return try CodeOwners(
-            base: base ?? url.deletingLastPathComponent(),
-            entries: file.components(separatedBy: "\n").compactMap(Entry.make)
-        )
-    }
-
-    static func make(from filename: String, base: URL? = nil) throws -> CodeOwners {
-        let url = URL(fileURLWithPath: filename, relativeTo: .currentDirectory()).standardizedFileURL
-        return try make(from: url, base: base)
     }
 }
 
@@ -152,21 +130,14 @@ extension CodeOwners.Entry {
 
         let scanner = Scanner(string: line)
         let pattern = try scanner.scanPattern()
-        return CodeOwners.Entry(
+        return try CodeOwners.Entry(
             pattern: pattern,
-            owners: scanner.scanOwners(),
-            glob: try .init(pattern)
+            owners: scanner.scanOwners()
         )
     }
 }
 
-private extension URL {
-    func convertingToDirectoryPath() -> URL {
-        appending(component: "a").deletingLastPathComponent()
-    }
-}
-
-private extension Scanner {
+extension Scanner {
 
     func scanPattern() throws -> String {
         let idx = currentIndex
