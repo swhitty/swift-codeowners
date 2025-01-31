@@ -69,7 +69,7 @@ public struct CodeOwners {
             throw ParseError("invalid data")
         }
         try self.init(
-            base: base,
+            base: base.standardizedFileURL,
             entries: text.components(separatedBy: "\n").compactMap(Entry.make)
         )
     }
