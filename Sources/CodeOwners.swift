@@ -46,6 +46,10 @@ public struct CodeOwners {
             self.owners = owners
             self.glob = try .init(pattern)
         }
+
+        public func match(file: String) -> Bool {
+            glob.match(file)
+        }
     }
 
     public struct Owner: RawRepresentable, Hashable {
@@ -116,7 +120,7 @@ extension CodeOwners.Entry: CustomStringConvertible {
 extension CodeOwners.Entry {
 
     static func ~= (entry: CodeOwners.Entry, file: String) -> Bool {
-        entry.glob.match(file)
+        entry.match(file: file)
     }
 }
 

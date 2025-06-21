@@ -59,6 +59,13 @@ struct CodeOwnersTests {
                 "@shrimp", "@sea-horse"
             ]
         )
+
+        #expect(
+            owners.owners(for: URL(filePath: "/Fish/foo/bar/seaShrimp.swift")) == [
+                "@jump"
+            ]
+        )
+
         #expect(
             owners.owners(for: URL(filePath: "/Fish/food/Chips/sea.cs")) == []
         )
@@ -73,6 +80,19 @@ struct CodeOwnersTests {
 
         #expect(
             owners.owners(for: URL(filePath: "/unknown/")) == []
+        )
+    }
+
+    @Test
+    func recusivePatternWithLongName() throws {
+        let entry = try CodeOwners.Entry(pattern: "*/f*", owners: ["fish"])
+
+        #expect(
+            entry.match(file: "a/f" + String(repeating: "o", count: 99))
+        )
+
+        #expect(
+            entry.match(file: "a/z" + String(repeating: "o", count: 99)) == false
         )
     }
 
