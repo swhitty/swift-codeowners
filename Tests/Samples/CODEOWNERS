@@ -1,5 +1,6 @@
 # under the sea
 Fish/Chips/** @shrimp
+Fish/**/*Shrimp* @jump
 Fish/*/Chips/*.swift @shrimp @sea-horse
 "Coral Reef/**" @anemone
 
